@@ -1,5 +1,30 @@
+'use client';
+
+import { useState } from "react";
+
 const Signup = () => {
+
   
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  console.log(username, email, password);
+
+
+  const handleSignup = async (email, password) => {
+    const { data, error } = await supabase.auth.signUp({
+      email,
+      password,
+    });
+    if (error) {
+      console.error("Error signing up:", error.message);
+    } else {
+      console.log("User signed up successfully:", data);
+    }
+  }
+
+
+
 
   return (
     <div className="flex items-center justify-center h-screen bg-gray-500">
@@ -13,6 +38,8 @@ const Signup = () => {
               id="username"
               className="w-full px-3 py-2 border border-gray-600 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
               placeholder="Enter your username"
+              required
+              onChange={(e) => setUsername(e.target.value)}
             />
           </div>
           <div className="mb-4">
@@ -22,6 +49,8 @@ const Signup = () => {
               id="email"
               className="w-full px-3 py-2 border border-gray-600 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
               placeholder="Enter your email"
+              required
+              onChange={(e) => setEmail(e.target.value)}
             />
           </div>
           <div className="mb-6">
@@ -31,7 +60,9 @@ const Signup = () => {
               id="password"
               className="w-full px-3 py-2 border border-gray-600 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
               placeholder="Enter your password"
-            />
+              required
+              onChange={(e) => setPassword(e.target.value)}
+/>
           </div>
           <button
             type="submit"

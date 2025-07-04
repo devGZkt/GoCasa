@@ -1,8 +1,37 @@
-const login = () => {
-  let username;
-  let password;
+'use client';
+
+import { useRouter } from "next/navigation";
+
+import { supabase } from "@/lib/supabaseClient";
+import { useState } from "react";
+
+const Login = () => {
+
+  const router = useRouter();
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
 
+  const handleLogin = async (email: string, password: string) => {
+    // Check user credentials
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
+    // Handle login response
+    if (error) {
+      console.error("Error logging in:", error.message);
+    } else {
+      console.log("User logged in successfully:", data);
+      setIsAuthenticated(true);
+    }
+    
+    // Redirect to home page if login is successful
+    if (isAuthenticated){
+      router.push("/");
+    }
+  }
 
   return (
     <div className="flex h-screen w-full items-center justify-center bg-gray-400">
@@ -17,6 +46,7 @@ const login = () => {
               className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-blue-500"
               placeholder="Enter your email"
               required
+              onChange={(e) => setUsername(e.target.value)}
             />
           </div>
           <div className="mb-6">
@@ -27,11 +57,18 @@ const login = () => {
               className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-blue-500"
               placeholder="Enter your password"
               required
+              onChange={(e) => setPassword(e.target.value)}
             />
           </div>
+          
+          {/* Login button */}
           <button
             type="submit"
             className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition duration-200"
+            onClick={(e) => {
+              e.preventDefault();
+              handleLogin(username, password);
+            }}
           >
             Login
           </button>
@@ -45,4 +82,4 @@ const login = () => {
   );
 };
 
-export default login;
+export default Login;

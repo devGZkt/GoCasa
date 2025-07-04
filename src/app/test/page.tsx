@@ -12,7 +12,13 @@ type TestData = {
 export default function Test() {
   const [dbData, setDbData] = useState<TestData[]>([]);
   const [error, setError] = useState<string | null>(null);
+  const [dataToStore, setDataToStore] = useState<TestData>({
+    id: 0,
+    task: 'Test Task',
+    is_complete: false,
+  });
 
+  //fetch data from Supabase
   useEffect(() => {
     const fetchTodos = async () => {
       const { data, error } = await supabase.from('Test').select('*');
@@ -26,6 +32,13 @@ export default function Test() {
 
     fetchTodos();
   }, []);
+
+  useEffect(() => {
+    const writeNewData = async () => {
+      await supabase.from('Test').insert(dataToStore)
+    }
+    writeNewData();
+  }, [])
 
   return (
     <div>

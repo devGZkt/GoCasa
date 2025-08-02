@@ -1,11 +1,28 @@
 // app/layout.tsx
 import type { Metadata } from 'next'
-import { Geist, Geist_Mono } from 'next/font/google'
+import { Geist, Geist_Mono, Inter } from 'next/font/google'
 import './globals.css'
 import { Providers } from './Providers'
 
-const geistSans = Geist({ variable: '--font-geist-sans', subsets: ['latin'] })
-const geistMono = Geist_Mono({ variable: '--font-geist-mono', subsets: ['latin'] })
+const geistSans = Geist({
+  subsets: ['latin'],
+  variable: '--geist-sans',
+  display: 'swap'
+})
+
+const geistMono = Geist_Mono({
+  subsets: ['latin'],
+  variable: '--geist-mono',
+  display: 'swap'
+})
+
+const inter = Inter({
+  subsets: ['latin'],
+  variable: '--inter',
+  display: 'swap'
+})
+
+
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -19,7 +36,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+      <body className={`${geistSans.variable} ${geistMono.variable} ${inter.variable} antialiased`}>
         <Providers>{children}</Providers>
       </body>
     </html>

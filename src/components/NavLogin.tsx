@@ -88,8 +88,9 @@ const NavLogin = () => {
             Reviews
           </Link>
           <button
+            className="block px-4 py-2 hover:bg-red-100 text-sm text-gray-700 w-full text-left text-red-400"
             onClick={handleLogout}>
-            Log out
+            Log Out
           </button>
         </div>
       )}
